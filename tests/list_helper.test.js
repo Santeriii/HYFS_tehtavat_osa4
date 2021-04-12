@@ -202,7 +202,7 @@ describe('most blogs', () => {
         }  
     ]
 
-    test.only('returns the author with the most blogs', () => {
+    test('returns the author with the most blogs', () => {
         const result = listHelper.mostBlogs(blogs)
 
         const authorWithMostBlogs = {
