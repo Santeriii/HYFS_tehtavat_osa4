@@ -1,3 +1,5 @@
+var _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -26,8 +28,28 @@ const favoriteBlog = (blogs) => {
     return favorite
 }
 
+const mostBlogs = (blogs) => {
+    let authorArray = _.map(blogs,'author')
+    let mostCommonAuthor = _.chain(authorArray).countBy().toPairs().max(_.last).head().value()
+    let authorCount = 0
+
+    blogs.map(blog => {
+        if (mostCommonAuthor === blog.author) {
+            authorCount = authorCount + 1
+        }
+    })
+
+    const authorWithMostBlogs = {
+        author: mostCommonAuthor,
+        blogs: authorCount
+    }
+
+    return authorWithMostBlogs
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }
