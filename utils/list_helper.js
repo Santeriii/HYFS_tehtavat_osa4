@@ -12,7 +12,22 @@ const totalLikes = (blogs) => {
     return likes
 }
 
+const favoriteBlog = (blogs) => {
+    let favorite = ''
+    let maxLikes = 0
+
+    blogs.map(blog => {
+        if (blog.likes > maxLikes) {
+            favorite = blog
+            maxLikes = blog.likes
+        }
+    })
+
+    return favorite
+}
+
 module.exports = {
     dummy,
-    totalLikes
+    totalLikes,
+    favoriteBlog
 }
