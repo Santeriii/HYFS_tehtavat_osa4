@@ -99,6 +99,26 @@ test('blog addition is succesful', async () => {
     )
 })
 
+test('if likes-field is not defined the value is set to zero', async () => {
+    const blogToAdd = {
+        title: "New addition",
+        author: "Test User",
+        url: "www.newaddition.com"
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(blogToAdd)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogs = await api.get('/api/blogs')
+
+    const addedBlog = blogs.body.find(b => b.title === "New addition")
+
+    expect(addedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
