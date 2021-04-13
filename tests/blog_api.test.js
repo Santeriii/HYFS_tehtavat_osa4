@@ -79,9 +79,8 @@ test('title- & url-fields must be defined when adding a blog', async () => {
         .expect(400)
 })
 
-test.only('blog removal is succesful', async () => {
+test('blog removal is succesful', async () => {
     const blogsAtStart = await helper.blogsInDb()
-    console.log(blogsAtStart)
     const blogToDelete = blogsAtStart[0]
 
     await api
@@ -97,6 +96,19 @@ test.only('blog removal is succesful', async () => {
     const titles = blogsAtEnd.map(b => b.title)
 
     expect(titles).not.toContain(blogToDelete.title)
+})
+
+test.only('blog modification works', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToBeModified = blogsAtStart[0]
+    const modifiedBlog = {...blogToBeModified, likes: blogToBeModified.likes + 1}
+
+    await api
+        .put(`/api/blogs/${blogToBeModified.id}`)
+        .send(modifiedBlog)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toContainEqual(modifiedBlog)
 })
 
 afterAll(() => {
