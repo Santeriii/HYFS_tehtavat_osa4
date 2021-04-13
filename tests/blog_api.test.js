@@ -79,6 +79,26 @@ test('title- & url-fields must be defined when adding a blog', async () => {
         .expect(400)
 })
 
+test.only('blog removal is succesful', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    console.log(blogsAtStart)
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(
+        helper.initialBlogs.length - 1
+    )
+
+    const titles = blogsAtEnd.map(b => b.title)
+
+    expect(titles).not.toContain(blogToDelete.title)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
