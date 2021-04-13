@@ -119,6 +119,18 @@ test('if likes-field is not defined the value is set to zero', async () => {
     expect(addedBlog.likes).toBe(0)
 })
 
+test('title- & url-fields must be defined when adding a blog', async () => {
+    const blogToAdd = {
+        author: "Test User",
+        likes: 2
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(blogToAdd)
+        .expect(400)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
