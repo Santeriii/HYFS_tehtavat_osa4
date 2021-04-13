@@ -75,6 +75,30 @@ test('the id-field of the blogs is formed correctly', async () => {
     expect(blogs.body[0].id).toBeDefined()
 })
 
+test('blog addition is succesful', async () => {
+    const toBeAdded = {
+        title: "New addition",
+        author: "Test User",
+        url: "www.newaddition.com",
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(toBeAdded)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    const titles = response.body.map(b => b.title)
+
+    expect(response.body).toHaveLength(3)
+    expect(titles).toContain(
+        'New addition'
+    )
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
