@@ -98,7 +98,7 @@ test('blog removal is succesful', async () => {
     expect(titles).not.toContain(blogToDelete.title)
 })
 
-test.only('blog modification works', async () => {
+test('blog modification works', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToBeModified = blogsAtStart[0]
     const modifiedBlog = {...blogToBeModified, likes: blogToBeModified.likes + 1}
