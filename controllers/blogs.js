@@ -82,7 +82,7 @@ blogsRouter.put('/:id', async (req, res) => {
     }
 
     await Blog.findByIdAndUpdate(req.params.id, blog)
-    res.json(blog.toJSON())
+    res.json(blog)
 })
 
 module.exports = blogsRouter
